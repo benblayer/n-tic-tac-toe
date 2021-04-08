@@ -5,3 +5,14 @@
 .title {
   font-size: 20pt;
 }
+
+.board-container {
+  display: flex;
+  justify-content: center;
+}
+
+.board-cell {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+}

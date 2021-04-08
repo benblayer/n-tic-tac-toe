@@ -1,21 +1,13 @@
-import React from 'react';
-import { withTranslation, WithTranslation } from '@wix/wix-i18n-config';
+import React, { FC } from 'react';
 import s from './App.scss';
+import Game from '../Game/Game';
 
-interface AppProps extends WithTranslation {}
+const App: FC<{}> = () => {
+  return (
+    <div className={s.root} data-hook="root">
+      <Game />
+    </div>
+  );
+};
 
-class App extends React.Component<AppProps> {
-  render() {
-    const { t } = this.props;
-
-    return (
-      <div className={s.root}>
-        <h2 className={s.title} data-hook="app-title">
-          {t('app.title', { who: 'Yoshi' })}
-        </h2>
-      </div>
-    );
-  }
-}
-
-export default withTranslation()(App);
+export default App;
