@@ -27,7 +27,8 @@ const Board: FC<BoardProps> = ({ n, checkStatus }: BoardProps) => {
   useEffect(() => {
     checkStatus(cells, turn, pos);
     setTurn(turn === BoardCellValue.X ? BoardCellValue.O : BoardCellValue.X);
-  }, cells);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cells]);
 
   const onCellClicked = (row: number, col: number) => {
     const nextCells = cells.map((r) => r.slice());

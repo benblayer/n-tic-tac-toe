@@ -11,7 +11,6 @@ export const isWin = (
     (row === dim - col - 1 ? isBottomLeftDiagonalWin(board, dim) : false) ||
     isRowWin(board, dim, row) ||
     isColWin(board, dim, col)
-
   );
 };
 

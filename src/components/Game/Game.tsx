@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   BoardCellValue,
   GameMode,
@@ -12,14 +12,20 @@ const Game: FC<{}> = () => {
   const [dim, setDim] = useState(0);
   const [winner, setWinner] = useState(BoardCellValue.EMPTY);
 
-  const handleDimInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
+  const startPlaying = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      if (!Number.isNaN(dim) && dim > 2) {
+        setMode(GameMode.PLAYING);
+      } else {
+        alert('Please choose a valid dimension');
+      }
+    }
+  };
 
+  const onDimChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
     if (!Number.isNaN(value) && value > 2) {
       setDim(value);
-      setMode(GameMode.PLAYING);
-    } else if (e.target.value.length > 0) {
-      alert('Please choose a valid dimension');
     }
   };
 
@@ -44,16 +50,23 @@ const Game: FC<{}> = () => {
   switch (mode) {
     case GameMode.PLAYING:
       return (
-        <Fragment>
+        <div>
           <Board n={dim} checkStatus={checkStatus} />
           <button onClick={reset}>Reset</button>
-        </Fragment>
+        </div>
       );
     case GameMode.WAITING:
       return (
         <div>
-          Pick a dimension bigger than 2:
-          <input type="text" onChange={handleDimInput} />
+          <label htmlFor="dim">
+            Pick a dimension bigger than 2 and hit enter:
+          </label>
+          <input
+            type="text"
+            id="dim"
+            onChange={onDimChanged}
+            onKeyDown={startPlaying}
+          />
         </div>
       );
     case GameMode.WIN:
