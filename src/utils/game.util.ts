@@ -7,20 +7,17 @@ export const isWin = (
   col: number
 ): boolean => {
   return (
-    isRowWin(board, dim, row, col) ||
-    isColWin(board, dim, row, col) ||
-    (row === col ? isTopLeftDiagonalWin(board, dim, row, col) : false) ||
-    (row === dim - col - 1
-      ? isBottomLeftDiagonalWin(board, dim, row, col)
-      : false)
+    (row === col ? isTopLeftDiagonalWin(board, dim) : false) ||
+    (row === dim - col - 1 ? isBottomLeftDiagonalWin(board, dim) : false) ||
+    isRowWin(board, dim, row) ||
+    isColWin(board, dim, col)
+
   );
 };
 
 const isTopLeftDiagonalWin = (
   board: BoardCellValue[][],
-  dim: number,
-  row: number,
-  col: number
+  dim: number
 ): boolean => {
   let res = true;
   for (let i = 0; i < dim - 1; i++) {
@@ -34,9 +31,7 @@ const isTopLeftDiagonalWin = (
 
 const isBottomLeftDiagonalWin = (
   board: BoardCellValue[][],
-  dim: number,
-  row: number,
-  col: number
+  dim: number
 ): boolean => {
   let res = true;
   for (let i = 0; i < dim - 1; i++) {
@@ -48,22 +43,32 @@ const isBottomLeftDiagonalWin = (
   return res;
 };
 
-const isRowWin = (board: BoardCellValue[][], dim: number, row: number, col: number): boolean => {
-  let rowFlag: boolean;
-  let j: number;
-  for (let i = 0; i < dim; i++) {
-    rowFlag = true;
-    for (j = 0; rowFlag && j < dim - 1; j++) {
-      rowFlag =
-        board[i][j] !== BoardCellValue.EMPTY && board[i][j] === board[i][j + 1];
-    }
-    if (j + 1 === dim) {
-      return true;
-    }
+const isRowWin = (
+  board: BoardCellValue[][],
+  dim: number,
+  row: number
+): boolean => {
+  let valid = true;
+  let i: number;
+  for (i = 0; valid && i < dim - 1; i++) {
+    valid =
+      board[row][i] !== BoardCellValue.EMPTY &&
+      board[row][i] === board[row][i + 1];
   }
-  return false;
+  return valid && i + 1 === dim;
 };
 
-const isColWin = (board: BoardCellValue[][], dim: number, row: number, col: number): boolean => {
-  return false;
+const isColWin = (
+  board: BoardCellValue[][],
+  dim: number,
+  col: number
+): boolean => {
+  let valid = true;
+  let i: number;
+  for (i = 0; valid && i < dim - 1; i++) {
+    valid =
+      board[i][col] !== BoardCellValue.EMPTY &&
+      board[i][col] === board[i + 1][col];
+  }
+  return valid && i + 1 === dim;
 };
