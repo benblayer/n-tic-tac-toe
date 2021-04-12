@@ -31,6 +31,7 @@ const Game: FC<{}> = () => {
 
   const reset = () => {
     setMode(GameMode.WAITING);
+    setDim(0);
     setWinner(BoardCellValue.EMPTY);
   };
   const checkStatus = (
